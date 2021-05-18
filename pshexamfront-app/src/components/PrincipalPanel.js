@@ -205,33 +205,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginTop: "22px",
     marginRight: "10px",
-  },
-  EstaNasheMal : {
-    background: 'rgba( 255, 255, 255, 0.25 )',
-    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
-    backdropFilter: 'blur( 4px )',
-    webkitBackdropFilter: 'blur( 4px )',
-    borderRadius: '10px',
-    border: '1px solid rgba( 255, 255, 255, 0.18 )',
-  },
-  EstaDeRuta : {
-    backgroundColor: 'lightblue',
-    height: '300px'
   }
 }));
 
 function PrincipalPanel() {
   const [currentChat, setCurrentChat] = useState();
   const classes = useStyles();
-
-  // const getItemLastMessage = (index) => {
-  //     console.log(JSON.parse(localStorage.getItem(`${contacts[0].name}`)))
-  //     const localStorageState = JSON.parse(localStorage.getItem(`${contacts[0].name}`))
-  //     const lastPosition = localStorageState.length-1
-  //     return localStorageState[lastPosition].message
-  // }
-
-  // console.log("funcion de nico", getItemLastMessage())
 
   const getCurrentChat = (person) => {
     const { id } = person;
@@ -282,11 +261,6 @@ function PrincipalPanel() {
           )}
         </Grid>
       </Grid>
-      {/* <Grid className={classes.EstaDeRuta}>
-        <Grid className={classes.EstaNasheMal}>  
-          <Typography> Pero que de ruta esta esta muchacha</Typography>
-        </Grid> 
-      </Grid> */}
     </Grid>
   );
 }
