@@ -5,7 +5,12 @@ import logo from '../assets/img/logo.svg'
 const useStyles = makeStyles((theme) => ({
     contactTitle : {
         width: "100%",
-        backgroundColor: "#E6E5E5",
+        background: 'rgba( 255, 255, 255, 0.2 )',
+        boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+        backdropFilter: 'blur( 4px )',
+        borderRadius: '10px',
+        border: '1px solid rgba( 255, 255, 255, 0.18 )',
+        margin: '3px',
         height: "96.5%"
     },
     img : {

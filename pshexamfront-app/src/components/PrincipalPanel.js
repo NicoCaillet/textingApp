@@ -1,5 +1,5 @@
 import { Grid, Typography, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../assets/img/user.jpg";
 import { contacts } from "../data/contacts";
 import "./index.css";
@@ -7,12 +7,18 @@ import "react-chat-elements/dist/main.css";
 import ChatBoxComponent from "./chatBox";
 import NoChatMainPage from "./noMessageView";
 import ContactBox from "./ContactBox";
+import bg from '../assets/img/bubbles.1.jpg'
+import CreateNew from './createNew'
 
 const useStyles = makeStyles((theme) => ({
   padre: {
-    width: "100%",
-    height: "100%",
-    borderRadius: "14px",
+    background: `url(${bg}) no-repeat center center fixed`,
+    padding: '10px',
+    paddingBottom: '49px',
+    webkitBackgroundSize: 'cover',
+    mozBackgroundSize: 'cover',
+    oBackgroundSize: 'cover',
+    backgroundSize: 'cover',
   },
   body: {
     backgroundColor: "ligth-gray",
@@ -31,8 +37,13 @@ const useStyles = makeStyles((theme) => ({
     width: "70%",
   },
   logoDiv: {
-    backgroundColor: "darkslategray",
     display: "flex",
+    background: 'rgba( 255, 255, 255, 0.16 )',
+    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+    backdropFilter: 'blur( 4px )',
+    borderRadius: '10px',
+    border: '1px solid rgba( 255, 255, 255, 0.18 )',
+    margin: '3px',
   },
   imgPsh: {
     width: "82px",
@@ -45,15 +56,24 @@ const useStyles = makeStyles((theme) => ({
   reactApp: {
     display: "inline-flex",
     alignItems: "center",
-    color: "white",
     fontFamily: "Montserrat",
     fontSize: "28px",
-    fontWeight: "bold",
     textAlign: "left",
+    fontStyle: 'normal',
+    fontWeight: '400',
+    lineHeight: '23px',
+    letterSpacing: '-.9px',
+    color: '#fff',
+    textShadow: '0 2px 4px rgb(71 97 206 / 36%)',
   },
   divBlack: {
-    backgroundColor: "#31170E",
     height: "700px",
+    background: 'rgba( 255, 255, 255, 0.2 )',
+    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+    backdropFilter: 'blur( 4px )',
+    borderRadius: '10px',
+    border: '1px solid rgba( 255, 255, 255, 0.18 )',
+    margin: '3px'
   },
   imgContactChat: {
     borderRadius: "50%",
@@ -150,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%",
   },
   lastmessage: {
-    color: "lightgray",
+    color: "white",
     fontFamily: "Montserrat",
     textAlign: "left",
     fontSize: "13px",
@@ -185,32 +205,22 @@ const useStyles = makeStyles((theme) => ({
     margin: "5px -4px",
     textAlign: "center",
   },
-  createNew: {
-    height: "80px",
-    display: "flex",
-    justifyContent: "center",
-    marginRight: "15px",
-  },
-  createNewText: {
-    color: "white",
-    display: "inline-flex",
-    alignItems: "center",
-    fontSize: "20px",
-    fontWeight: "bold",
-    fontFamily: "Lucida Console",
-  },
-  addIcon: {
-    color: "white",
-    display: "inline-flex",
-    alignItems: "center",
-    marginTop: "22px",
-    marginRight: "10px",
-  }
+  
+ 
 }));
 
 function PrincipalPanel() {
   const [currentChat, setCurrentChat] = useState();
   const classes = useStyles();
+
+  let obj =  {
+    name: "Nicolas Caillet-Bois",
+    id: 3,
+    job: "CTO",
+    lastMessage: "No hay problema!",
+    lastMessageHour: "9:13 AM",
+    isActive: false,
+  }
 
   const getCurrentChat = (person) => {
     const { id } = person;
@@ -220,6 +230,7 @@ function PrincipalPanel() {
       JSON.parse(localStorage.getItem(`${person.name}`)) || [];
     setCurrentChat({ info: currentPerson, messages: currentMessages });
   };
+
 
   return (
     <Grid className={classes.padre}>
@@ -243,10 +254,9 @@ function PrincipalPanel() {
                 return <Grid></Grid>;
               }
             })}
-            {/* <Grid className={classes.createNew}>
-                        <AddIcon fontSize="large" color="disabled" className={classes.addIcon}/>
-                        <Typography className={classes.createNewText}> Create New</Typography>
-                    </Grid> */}
+            
+            <CreateNew />
+            
           </Grid>
         </Grid>
         <Grid className={classes.chat}>

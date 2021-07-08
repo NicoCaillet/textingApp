@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Grid,
   Typography,
@@ -22,16 +22,33 @@ const useStyles = makeStyles(() => ({
   },
   contactTitle: {
     width: "100%",
-    backgroundColor: "white",
   },
   chatInputs: {
-    width: "100%",
-    backgroundColor: "#E9E9E9",
+    width: "99%",
     height: "670px",
-    overflowY: "auto",
+    overflow: "hidden",
+    background: 'rgba( 255, 255, 255, 0.02 )',
+    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+    backdropFilter: 'blur( 4px )',
+    borderRadius: '10px',
+    border: '1px solid rgba( 255, 255, 255, 0.18 )',
+    margin: '3px',
+  },
+  chatInputsChild: { 
+    width: '100%',
+    height: '100%',
+    overflowY: 'scroll',
+    paddingRight: '17px', 
+    boxSizing: 'content-box', 
   },
   infoIndividualchat: {
     display: "flex",
+    background: 'rgba( 255, 255, 255, 0.09 )',
+    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+    backdropFilter: 'blur( 4px )',
+    borderRadius: '10px',
+    border: '1px solid rgba( 255, 255, 255, 0.18 )',
+    margin: '3px',
   },
   messageBoxStyles: {},
   containerMessage: {
@@ -68,9 +85,14 @@ const useStyles = makeStyles(() => ({
   divInput: {
     position: "fixed",
     marginTop: "-69px",
-    width: "45.5%",
-    backgroundColor: "white",
+    width: "44.5%",
     height: "70px",
+    background: 'rgba( 255, 255, 255, 0.02 )',
+    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+    backdropFilter: 'blur( 4px )',
+    borderRadius: '10px',
+    border: '1px solid rgba( 255, 255, 255, 0.18 )',
+    margin: '3px',
   },
   inputAlone: {
     width: "77%",
@@ -160,22 +182,31 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ChatBox = ({ updateContact, object, arrayMessages }) => {
+
+  const messagesEndRef = useRef();
+
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState({
     message: "",
   });
-
   const personName = object.name;
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
 
   useEffect(() => {
     setMessages(arrayMessages);
+    scrollToBottom()
   }, [personName, arrayMessages]);
+
 
   const handleInputChange = (e) => {
     setMessage({ ...message, message: e.target.value });
   };
 
+  
   const handleSubmit = () => {
     if (message.message !== "") {
       setMessages((prevState) => {
@@ -192,11 +223,17 @@ const ChatBox = ({ updateContact, object, arrayMessages }) => {
       updateContact(object);
     }
   };
+  const enterPressed = (event) => {
+    var code = event.keyCode || event.which;
+    if(code === 13) { 
+       return handleSubmit()
+    } 
+  }
   const horarioActual = moment().format(" h:mm a");
 
   return (
-    <Grid className={classes.contactTitle}>
-      <Grid className={classes.infoIndividualchat}>
+    <Grid className={classes.contactTitle} >
+      <Grid className={classes.infoIndividualchat} >
         <img
           src={object.img}
           alt="contactImage"
@@ -207,54 +244,59 @@ const ChatBox = ({ updateContact, object, arrayMessages }) => {
           <Typography className={classes.puesto}> {object.job}</Typography>
         </Grid>
       </Grid>
-      <Grid className={classes.chatInputs}>
-        <Grid className={classes.containerMessage}>
-          {/* {moment().format(' h:mm a')} */}
-          <Grid>
-            <Typography className={classes.hora}> 15:00 PM</Typography>
-          </Grid>
-          <MessageBox
-            className={classes.messageBoxStyles}
-            position={"left"}
-            type={"text"}
-            text={object.lastMessage}
-          />
-        </Grid>
-
-        <Grid className={classes.containerMessage}>
-          <Grid className={classes.divHora}>
-            <Typography className={classes.hora}> 15:00 PM</Typography>
-          </Grid>
-          <MessageBox
-            className={classes.messageBoxStyles}
-            position={"left"}
-            type={"text"}
-            text={object.lastMessage}
-          />
-        </Grid>
-
-        {messages.length > 0 &&
-          messages.map((item) => {
-            return (
-              <Grid className={classes.containerMessage}>
-                <Grid>
-                  <Typography className={classes.hora}>
-                    {" "}
-                    {horarioActual}{" "}
-                  </Typography>
-                </Grid>
-                <MessageBox
-                  className={classes.messageBoxStyles}
-                  position={"right"}
-                  type={"text"}
-                  text={item.message}
-                />
+      <Grid className={classes.chatInputs} >
+        <Grid className={classes.chatInputsChild} > 
+            <Grid className={classes.containerMessage}>
+              {/* {moment().format(' h:mm a')} */}
+              <Grid>
+                <Typography className={classes.hora}> 15:00 PM</Typography>
               </Grid>
-            );
-          })}
+              <MessageBox
+                className={classes.messageBoxStyles}
+                position={"left"}
+                type={"text"}
+                text={object.lastMessage && object.lastMessage}
+              />
+            </Grid>
+
+            <Grid className={classes.containerMessage}>
+              <Grid className={classes.divHora}>
+                <Typography className={classes.hora}> 15:00 PM</Typography>
+              </Grid>
+              <MessageBox
+                className={classes.messageBoxStyles}
+                position={"left"}
+                type={"text"}
+                text={object.lastMessage && object.lastMessage}
+              />
+            </Grid>
+
+            {messages.length > 0 &&
+              messages.map((item) => {
+                return (
+                  <Grid className={classes.containerMessage}>
+                    <Grid>
+                      <Typography className={classes.hora}>
+                        {" "}
+                        {horarioActual}{" "}
+                      </Typography>
+                    </Grid>
+                    <MessageBox
+                      className={classes.messageBoxStyles}
+                      position={"right"}
+                      type={"text"}
+                      text={item.message}
+                    />
+                    <Grid ref={messagesEndRef}> 
+
+                    </Grid>
+                  </Grid>
+                );
+              })}
+        </Grid>
       </Grid>
       <Grid className={classes.divInput}>
-        <FormControl onSubmit={handleSubmit} className={classes.createMessage}>
+        <FormControl className={classes.createMessage}>
           <Grid className={classes.createMessage}>
             <input
               placeholder="Type your message..."
@@ -266,8 +308,8 @@ const ChatBox = ({ updateContact, object, arrayMessages }) => {
               autoFocus
               onChange={handleInputChange}
               value={message.message}
+              
             />
-
             <Button
               className={classes.buttonStyles}
               variant="contained"

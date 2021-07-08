@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   chatInputs: {
     width: "100%",
     backgroundColor: "#E9E9E9",
-    height: "670px",
+    height: "673px",
     overflowY: "auto",
   },
   infoIndividualchat: {
@@ -134,8 +134,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   nameContact: {
-    color: "white",
+    fontStyle: 'normal',
     textAlign: "left",
+    fontWeight: '400',
+    fontSize: '18px',
+    lineHeight: '23px',
+    letterSpacing: '-.9px',
+    color: '#fff',
+    textShadow: '0 2px 4px rgb(71 97 206 / 36%)',
   },
   imgContact: {
     width: "65px",
@@ -144,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%",
   },
   lastmessage: {
-    color: "lightgray",
+    color: "white",
     fontFamily: "Montserrat",
     textAlign: "left",
     fontSize: "13px",
